@@ -86,7 +86,7 @@ export default function App() {
 
 	const handleGuess = () => {
 		if (suspect && weapon && room) {
-			socket.emit("guess", { suspect, weapon, room });
+			socket.emit("guess", { suspect, weapon, room, timestamp: new Date() });
 		}
 	};
 

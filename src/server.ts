@@ -7,6 +7,7 @@ import type {
 	ClientToServerEvents,
 	Guess,
 	Players,
+	Solution,
 } from "./types";
 
 const app = express();
@@ -52,7 +53,7 @@ const rooms = [
 	"Study",
 ];
 
-let solution: Guess;
+let solution: Solution;
 const players: Players = {};
 let gameInProgress = false;
 
@@ -74,7 +75,7 @@ io.on("connection", (socket) => {
 		io.emit("updatePlayers", players);
 	});
 
-	socket.on("guess", ({ suspect, weapon, room }: Guess) => {
+	socket.on("guess", ({ suspect, weapon, room, timestamp }: Guess) => {
 		if (!gameInProgress) return;
 
 		let score = 0;
@@ -91,6 +92,7 @@ io.on("connection", (socket) => {
 				weapon: weapon === solution.weapon,
 				room: room === solution.room,
 			},
+			timestamp,
 		});
 		io.emit("updatePlayers", players);
 	});

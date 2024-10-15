@@ -8,7 +8,9 @@ export interface Solution {
 	room: string;
 }
 
-export interface Guess extends Solution {}
+export interface Guess extends Solution {
+	timestamp: Date;
+}
 
 export interface GuessResult {
 	score: number;
@@ -17,6 +19,7 @@ export interface GuessResult {
 		weapon: boolean;
 		room: boolean;
 	};
+	timestamp: Date;
 }
 
 // Player-related interfaces
