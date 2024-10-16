@@ -10,11 +10,16 @@ import {
 	solution,
 } from "./types";
 
+const backendUrl =
+	process.env.NODE_ENV === "production"
+		? "https://clue-game-1.onrender.com"
+		: "http://localhost:5173";
+
 const app = express();
 const httpServer = createServer(app);
 const io = new Server<ClientToServerEvents, ServerToClientEvents>(httpServer, {
 	cors: {
-		origin: "http://localhost:5173",
+		origin: backendUrl,
 		methods: ["GET", "POST"],
 	},
 });
