@@ -36,7 +36,10 @@ interface GameContextType {
 
 const GameContext = createContext<GameContextType | undefined>(undefined);
 
-const backendUrl = import.meta.env.VITE_BACKEND_URL || "http://localhost:3000";
+const backendUrl =
+	process.env.NODE_ENV === "production"
+		? "https://clue-game.onrender.com/"
+		: "http://localhost:3000";
 
 export const GameProvider: React.FC<{ children: React.ReactNode }> = ({
 	children,
