@@ -41,7 +41,11 @@ const backendUrl = import.meta.env.VITE_BACKEND_URL || "http://localhost:3000";
 export const GameProvider: React.FC<{ children: React.ReactNode }> = ({
 	children,
 }) => {
-	const [socket] = useState(() => io(backendUrl));
+	const [socket] = useState(() =>
+		io(backendUrl, {
+			transports: ["websocket", "polling"],
+		}),
+	);
 	const [name, setName] = useState("");
 	const [joined, setJoined] = useState(false);
 	const [players, setPlayers] = useState<Players>({});

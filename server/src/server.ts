@@ -1,7 +1,6 @@
 import express from "express";
 import { createServer } from "node:http";
 import { Server } from "socket.io";
-import path from "node:path";
 import {
 	type ServerToClientEvents,
 	type ClientToServerEvents,
@@ -9,25 +8,23 @@ import {
 	type Players,
 	solution,
 } from "./types";
+import cors from "cors";
 
-const backendUrl =
-	process.env.NODE_ENV === "production"
-		? "https://clue-game-1.onrender.com"
-		: "http://localhost:5173";
+const PORT = process.env.PORT || 3000;
+const corsOptions = {
+	origin:
+		process.env.NODE_ENV === "production"
+			? "https://clue-game-1.onrender.com/"
+			: "http://localhost:5173",
+	methods: ["GET", "POST"],
+};
 
 const app = express();
+app.use(cors(corsOptions));
 const httpServer = createServer(app);
 const io = new Server<ClientToServerEvents, ServerToClientEvents>(httpServer, {
-	cors: {
-		origin: backendUrl,
-		methods: ["GET", "POST"],
-	},
+	cors: corsOptions,
 });
-
-const PORT = 3000;
-
-// Serve static files from the React app
-app.use(express.static(path.join(__dirname, "../client/dist")));
 
 const players: Players = {};
 let gameInProgress = false;
